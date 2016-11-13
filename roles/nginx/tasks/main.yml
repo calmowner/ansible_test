@@ -1,0 +1,41 @@
+---
+# tasks file for nginx
+
+ - name: Adding repo key
+   apt_key: url=http://nginx.org/keys/nginx_signing.key state=present
+
+ - name: Adding nginx repo
+   blockinfile:
+     dest: /etc/apt/sources.list
+     insertafter: EOF
+     state: present
+     block: |
+       deb http://nginx.org/packages/ubuntu/ xenial nginx
+       deb-src http://nginx.org/packages/ubuntu/ xenial nginx
+
+ - name: Installing nginx
+   apt: name=nginx state=latest
+
+ - name: Add nginx to autoload
+   service: name=nginx state=started enabled=yes
+
+ - name: Installing uWSGI-server
+   apt: name=uwsgi-plugin-python state=latest
+
+ - name: Create document root for application
+   file:
+     path="/var/www/uwsgi" state=directory owner=www-data group=www-data mode=0644
+
+ - name: Create log directory
+   file:
+     path="/var/log/datanyze-logs" state=directory owner=www-data group=www-data mode=0644
+
+ - name: Adding default virtualhost config file
+   template: src=defaulthost.j2 dest=/etc/nginx/sites-available/default owner=root group=root mode=0644
+   notify:
+     - restart nginx
+
+ - name: Adding application file
+   template: src=app.py.j2 dest=/var/www/uwsgi/app.py owner=www-data group=www-data mode=0644
+   notify:
+     - start uwsgi

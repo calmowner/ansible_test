@@ -1,0 +1,7 @@
+---
+# handlers file for nginx
+ - name: restart nginx
+   service: name=nginx state=restarted
+
+ - name: start uwsgi
+   command: /usr/bin/uwsgi_python27 --socket 127.0.0.1:3031 --file /var/www/uwsgi/app.py --chdir /var/www/uwsgi -p 2 --threads 5 -b 4096 -d uwsgi

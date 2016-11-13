@@ -1,0 +1,23 @@
+ - hosts: all
+   pre_tasks:
+   - name: Add nameserver
+     lineinfile:
+       dest=/etc/network/interfaces
+       state=present
+       insertbefore="#VAGRANT-END"
+       line="dns-nameservers 8.8.8.8"
+     notify: restart networking
+
+   handlers:
+     - name: restart networking
+       service: name=networking state=restarted
+
+ - name: nginx installation
+   hosts: web
+   roles:
+   - nginx
+
+ - name: haproxy installation
+   hosts: balancer
+   roles:
+   - haproxy
