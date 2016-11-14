@@ -1,2 +1,11 @@
 ---
 # tasks file for haproxy
+ - name: Installing haproxy
+   apt: name=haproxy state=latest
+
+ - name: Add haproxy to autoload
+   service: name=haproxy state=started enabled=yes
+
+ - name: Creating haproxy config file
+   template: src=haproxy.cfg.j2 dest=/etc/haproxy/haproxy.cfg mode=0644
+   notify: restart haproxy
