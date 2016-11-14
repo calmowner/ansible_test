@@ -40,5 +40,11 @@
    notify:
      - start uwsgi
 
+ - name: Adding autostart script for uWSGI
+   template: src=uwsgi.service.j2 dest=/etc/systemd/system/uwsgi.service owner=root group=root mode=0644
+
+ - name: Add uWSGI to autoload
+   service: name=uwsgi state=started enabled=yes
+
  - name: Adding log rotation for nginx log
    template: src=datanyze.j2 dest=/etc/logrotate.d/datanyze owner=root group=root mode=0644
