@@ -7,6 +7,12 @@
        insertbefore="#VAGRANT-END"
        line="dns-nameservers 8.8.8.8"
      notify: restart networking
+   - name: Enabling automatic installation of security updates
+     lineinfile:
+       dest=/etc/apt/apt.conf.d/10periodic
+       state=present
+       insertafter=EOF
+       line="APT::Periodic::Unattended-Upgrade "1";"
 
    handlers:
      - name: restart networking

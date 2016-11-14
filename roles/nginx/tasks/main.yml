@@ -39,3 +39,6 @@
    template: src=app.py.j2 dest=/var/www/uwsgi/app.py owner=www-data group=www-data mode=0644
    notify:
      - start uwsgi
+
+ - name: Adding log rotation for nginx log
+   template: src=datanyze.j2 dest=/etc/logrotate.d/datanyze owner=root group=root mode=0644
