@@ -3,9 +3,9 @@ Description=uWSGI
 After=syslog.target
 
 [Service]
-ExecStart=/usr/bin/uwsgi_python27 --socket 127.0.0.1:3031 --file /var/www/uwsgi/app.py --chdir /var/www/uwsgi -p 2 --threads 5 -b 4096
+ExecStart=/usr/bin/uwsgi_python27 --socket 127.0.0.1:3031 --file /var/www/uwsgi/app.py --chdir /var/www/uwsgi --uid www-data -p 2 --threads 5 -b 4096
 # Requires systemd version 211 or newer
-RuntimeDirectory=uwsgi
+RuntimeDirectory=/var/www/uwsgi
 Restart=always
 KillSignal=SIGQUIT
 Type=notify
