@@ -28,7 +28,7 @@
 
  - name: Create log directory
    file:
-     path="/var/log/datanyze-logs" state=directory owner=www-data group=www-data mode=0644
+     path="/var/log/app-logs" state=directory owner=www-data group=www-data mode=0644
 
  - name: Adding default virtualhost config file
    template: src=defaulthost.j2 dest=/etc/nginx/sites-available/default owner=root group=root mode=0644
@@ -47,4 +47,4 @@
      - start uwsgi
 
  - name: Adding log rotation for nginx log
-   template: src=datanyze.j2 dest=/etc/logrotate.d/datanyze owner=root group=root mode=0644
+   template: src=app.j2 dest=/etc/logrotate.d/app owner=root group=root mode=0644
